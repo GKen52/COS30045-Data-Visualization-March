@@ -1,0 +1,9 @@
+require ldap-user s106632645
+require ldap-group cn=it_feenix_admin_convenor,ou=Group,ou=general,dc=feenix,dc=swin,dc=edu,dc=au
+require ldap-group cn=it_sdteam_convenor,ou=Group,ou=general,dc=feenix,dc=swin,dc=edu,dc=au
+require ldap-group cn=cos30045_convenor,ou=Group,ou=general,dc=feenix,dc=swin,dc=edu,dc=au
+require ldap-group cn=cos30045_tutor,ou=Group,ou=general,dc=feenix,dc=swin,dc=edu,dc=au
+
+Options +Indexes
+
+SSLRequireSSL
