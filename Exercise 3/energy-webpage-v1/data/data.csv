@@ -1,0 +1,46 @@
+Appliance,Type,Size/Power,Annual Energy (kWh),Annual Cost (AUD),Energy Rating
+Television,LED LCD,32 inch,58,17,5
+Television,LED LCD,43 inch,102,30,4
+Television,LED LCD,55 inch,170,50,4
+Television,LED LCD,65 inch,234,69,3
+Television,LED LCD,75 inch,328,97,3
+Television,OLED,55 inch,146,43,4
+Television,OLED,65 inch,219,65,3
+Television,OLED,77 inch,292,86,3
+Television,QLED,55 inch,153,45,4
+Television,QLED,65 inch,219,65,4
+Television,QLED,75 inch,292,86,3
+Television,Plasma,50 inch,511,151,1
+Refrigerator,Top Mount,300L,350,103,4
+Refrigerator,Top Mount,400L,420,124,4
+Refrigerator,Bottom Mount,400L,380,112,4
+Refrigerator,Side by Side,500L,550,162,3
+Refrigerator,French Door,600L,620,183,3
+Refrigerator,Compact Bar Fridge,100L,180,53,3
+Washing Machine,Front Load,7kg,220,65,5
+Washing Machine,Front Load,8kg,250,74,5
+Washing Machine,Top Load,7kg,380,112,3
+Washing Machine,Top Load,8kg,420,124,3
+Dishwasher,Standard,12 place settings,280,83,4
+Dishwasher,Compact,6 place settings,180,53,4
+Air Conditioner,Split System,2.5kW,650,192,5
+Air Conditioner,Split System,5kW,1200,354,4
+Air Conditioner,Split System,7kW,1800,531,4
+Air Conditioner,Window Unit,2.5kW,850,251,3
+Air Conditioner,Portable,2.5kW,1100,325,2
+Dryer,Vented,5kg,650,192,2
+Dryer,Condenser,7kg,580,171,3
+Dryer,Heat Pump,8kg,280,83,6
+Oven,Electric,60cm,280,83,3
+Oven,Electric,90cm,380,112,3
+Cooktop,Induction,4 zone,200,59,5
+Cooktop,Ceramic,4 zone,280,83,4
+Microwave,Solo,25L,100,30,4
+Microwave,Convection,32L,150,44,4
+Computer,Desktop,Standard,300,89,3
+Computer,Laptop,15 inch,80,24,5
+Monitor,LED,24 inch,75,22,4
+Monitor,LED,27 inch,100,30,4
+Gaming Console,PS5,Standard,180,53,3
+Gaming Console,Xbox Series X,Standard,200,59,3
+Gaming Console,Nintendo Switch,Standard,15,4,5

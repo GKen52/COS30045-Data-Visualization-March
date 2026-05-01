@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Energy Saver - Data Story</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo"><img src="images/PowerIcon.png" alt="Logo"></div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="televisions.html" class="nav-link">Televisions</a></li>
+                <li><a href="data-story.html" class="nav-link">Data Story</a></li>
+                <li><a href="about.html" class="nav-link">About Us</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <h1>TV Energy Consumption Data Story</h1>
+        <p>Exploring patterns in television energy consumption across different models, sizes, and technologies in the Australian market.</p>
+
+        <div class="card">
+            <h2>Audience</h2>
+            <p>This visualisation is designed for:</p>
+            <ul>
+                <li>Consumers interested in energy-efficient televisions</li>
+                <li>Policy makers and regulators interested in energy consumption trends</li>
+                <li>Researchers studying energy efficiency in consumer electronics</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>Story Overview</h2>
+            <p>This visualisation explores patterns in TV energy consumption across different television models and specifications. The goal is to help viewers understand how energy consumption varies between television models, the relationship between screen size and power consumption, how energy efficiency ratings impact energy usage, and trends that may help consumers choose more energy-efficient televisions.</p>
+        </div>
+
+        <div class="card">
+            <h2>Question 1: Screen Tech Frequency</h2>
+            <p>What type of TV screen technologies are currently available and which are the most frequent?</p>
+            <div class="chart-container">
+                <canvas id="screenTechChart"></canvas>
+            </div>
+            <img src="images/question1.png" alt="Question 1 Screen Tech Analysis" style="width: 100%; margin-top: 15px; border-radius: 8px;">
+            <p><strong>Key Insight:</strong> LCD (LED) dominates the Australian market with 3800 models, significantly more than LCD (481) and OLED (311). This indicates LCD (LED) is the most commonly available technology for consumers.</p>
+            <p><strong>Recommendation:</strong> Focus marketing or supply efforts on LCD (LED) devices, leveraging their dominant market share. Monitor emerging OLED trends as advanced screen technology.</p>
+        </div>
+
+        <div class="card">
+            <h2>Question 2: Screen Size Availability</h2>
+            <p>What screen sizes are currently available, and which are the most frequent?</p>
+            <div class="chart-container">
+                <canvas id="screenSizeChart"></canvas>
+            </div>
+            <img src="images/question2.png" alt="Question 2 Screen Size Analysis" style="width: 100%; margin-top: 15px; border-radius: 8px;">
+            <p><strong>Key Insight:</strong> The 65-inch category is the most frequent size with 843 models, followed by 55-inch (764), 50-inch (334), and 75-inch (91). Larger screens between 55-65 inches dominate the market.</p>
+            <p><strong>Recommendation:</strong> Prioritize the 65-inch category as it is currently the most frequent size. Ensure stock levels and marketing materials align with this highly sought-after category.</p>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>2026 | Kennard Chan</p>
+    </footer>
+
+    <script src="js/scripts.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            createScreenTechChart();
+            createScreenSizeChart();
+            createCostChart();
+            createSizeChart();
+            createRatingChart();
+        });
+
+        function createScreenTechChart() {
+            const ctx = document.getElementById('screenTechChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['LCD (LED)', 'LCD', 'OLED'],
+                    datasets: [{
+                        label: 'Number of Models',
+                        data: [3800, 481, 311],
+                        backgroundColor: ['#4CAF50', '#2196F3', '#FF9800']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { 
+                            beginAtZero: true,
+                            title: { display: true, text: 'Count' }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+
+        function createScreenSizeChart() {
+            const ctx = document.getElementById('screenSizeChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['50"', '55"', '65"', '75"'],
+                    datasets: [{
+                        label: 'Number of Models',
+                        data: [334, 764, 843, 91],
+                        backgroundColor: ['#00BCD4', '#4CAF50', '#FFC107', '#FF9800']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { 
+                            beginAtZero: true,
+                            title: { display: true, text: 'Count' }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+
+        function createCostChart() {
+            const ctx = document.getElementById('costChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['LED LCD 32"', 'LED LCD 43"', 'LED LCD 55"', 'LED LCD 65"', 'LED LCD 75"', 'OLED 55"', 'OLED 65"', 'OLED 77"', 'QLED 55"', 'QLED 65"', 'QLED 75"', 'Plasma 50"'],
+                    datasets: [{
+                        label: 'Annual Cost (AUD)',
+                        data: [17, 30, 50, 69, 97, 43, 65, 86, 45, 65, 86, 151],
+                        backgroundColor: ['#4CAF50', '#4CAF50', '#4CAF50', '#4CAF50', '#4CAF50', '#2196F3', '#2196F3', '#2196F3', '#FF9800', '#FF9800', '#FF9800', '#F44336']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { 
+                            beginAtZero: true,
+                            title: { display: true, text: 'Annual Cost (AUD)' }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+
+        function createSizeChart() {
+            const ctx = document.getElementById('sizeChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['32"', '43"', '50"', '55"', '65"', '75"', '77"'],
+                    datasets: [
+                        {
+                            label: 'LED LCD',
+                            data: [58, 102, null, 170, 234, 328, null],
+                            borderColor: '#4CAF50',
+                            backgroundColor: '#4CAF50',
+                            tension: 0.3
+                        },
+                        {
+                            label: 'OLED',
+                            data: [null, null, null, 146, 219, null, 292],
+                            borderColor: '#2196F3',
+                            backgroundColor: '#2196F3',
+                            tension: 0.3
+                        },
+                        {
+                            label: 'QLED',
+                            data: [null, null, null, 153, 219, 292, null],
+                            borderColor: '#FF9800',
+                            backgroundColor: '#FF9800',
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Plasma',
+                            data: [null, null, 511, null, null, null, null],
+                            borderColor: '#F44336',
+                            backgroundColor: '#F44336',
+                            tension: 0.3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { 
+                            beginAtZero: true,
+                            title: { display: true, text: 'Annual Energy (kWh)' }
+                        }
+                    },
+                    spanGaps: true
+                }
+            });
+        }
+
+        function createRatingChart() {
+            const ctx = document.getElementById('ratingChart').getContext('2d');
+            const ratingData = {
+                1: [151],
+                3: [69, 97, 65, 86, 86],
+                4: [30, 50, 43, 45, 65]
+            };
+            
+            const labels = ['1 Star', '3 Stars', '4 Stars', '5 Stars'];
+            const avgCosts = [
+                151,
+                ratingData[3].reduce((a, b) => a + b, 0) / ratingData[3].length,
+                ratingData[4].reduce((a, b) => a + b, 0) / ratingData[4].length,
+                17
+            ];
+
+        }
+    </script>
+</body>
+</html>
