@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Energy Saver - Data Story</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        .responsive-svg-container {
+            margin-right: auto;
+            margin-left: auto;
+            width: 100%;
+            max-width: 1200px;
+            margin-bottom: 20px;
+        }
+        .bar {
+            transition: opacity 0.3s;
+        }
+        .bar:hover {
+            opacity: 0.8;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo"><img src="images/PowerIcon.png" alt="Logo"></div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="televisions.html" class="nav-link">Televisions</a></li>
+                <li><a href="data-story.html" class="nav-link">Data Story</a></li>
+                <li><a href="about.html" class="nav-link">About Us</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <h1>TV Energy Consumption Data Story</h1>
+        <p>Exploring patterns in television energy consumption across different models, sizes, and technologies in the Australian market.</p>
+
+        <div class="card">
+            <h2>Audience</h2>
+            <p>This visualisation is designed for:</p>
+            <ul>
+                <li>Consumers interested in energy-efficient televisions</li>
+                <li>Policy makers and regulators interested in energy consumption trends</li>
+                <li>Researchers studying energy efficiency in consumer electronics</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>Story Overview</h2>
+            <p>This visualisation explores patterns in TV energy consumption across different television models and specifications. The goal is to help viewers understand how energy consumption varies between television models, the relationship between screen size and power consumption, how energy efficiency ratings impact energy usage, and trends that may help consumers choose more energy-efficient televisions.</p>
+        </div>
+
+        <div class="card">
+            <h2>Question 1: Screen Tech Frequency</h2>
+            <p>What type of TV screen technologies are currently available and which are the most frequent?</p>
+            <div class="responsive-svg-container" id="chart-tech"></div>
+            <img src="images/question1.png" alt="Question 1 Screen Tech Analysis" style="width: 100%; margin-top: 15px; border-radius: 8px;">
+            <p><strong>Key Insight:</strong> LCD (LED) dominates the Australian market with 3800 models, significantly more than LCD (481) and OLED (311). This indicates LCD (LED) is the most commonly available technology for consumers.</p>
+            <p><strong>Recommendation:</strong> Focus marketing or supply efforts on LCD (LED) devices, leveraging their dominant market share. Monitor emerging OLED trends as advanced screen technology.</p>
+        </div>
+
+        <div class="card">
+            <h2>Question 2: Screen Size Availability</h2>
+            <p>What screen sizes are currently available, and which are the most frequent?</p>
+            <div class="responsive-svg-container" id="chart-size"></div>
+            <img src="images/question2.png" alt="Question 2 Screen Size Analysis" style="width: 100%; margin-top: 15px; border-radius: 8px;">
+            <p><strong>Key Insight:</strong> The 65-inch category is the most frequent size with 843 models, followed by 55-inch (764), 50-inch (334), and 75-inch (91). Larger screens between 55-65 inches dominate the market.</p>
+            <p><strong>Recommendation:</strong> Prioritize the 65-inch category as it is currently the most frequent size. Ensure stock levels and marketing materials align with this highly sought-after category.</p>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>2026 | Kennard Chan</p>
+    </footer>
+
+    <script src="js/scripts.js"></script>
+    <script>
+        const createBarChart = (containerId, csvPath, categoryKey, valueKey, title, xLabel, colors) => {
+            const svg = d3.select(containerId)
+                .append("svg")
+                .attr("viewBox", "0 0 1200 600")
+                .style("border", "1px solid black");
+
+            d3.csv(csvPath, d => {
+                return {
+                    category: d[categoryKey],
+                    count: +d[valueKey]
+                };
+            }).then(data => {
+                console.log(data);
+                console.log(data.length);
+                console.log(d3.max(data, d => d.count));
+                console.log(d3.min(data, d => d.count));
+                console.log(d3.extent(data, d => d.count));
+                data.sort((a, b) => b.count - a.count);
+                console.log(data);
+
+                const xScale = d3.scaleLinear()
+                    .domain([0, d3.max(data, d => d.count)])
+                    .range([0, 1000]);
+
+                const yScale = d3.scaleBand()
+                    .domain(data.map(d => d.category))
+                    .range([0, 400])
+                    .padding(0.2);
+
+                svg.selectAll("rect")
+                    .data(data)
+                    .join("rect")
+                    .attr("class", d => `bar bar-${d.count}`)
+                    .attr("width", d => xScale(d.count))
+                    .attr("height", yScale.bandwidth())
+                    .attr("x", 100)
+                    .attr("y", d => yScale(d.category))
+                    .attr("fill", (d, i) => colors[i % colors.length]);
+
+                svg.selectAll(".label")
+                    .data(data)
+                    .join("text")
+                    .attr("class", "label")
+                    .attr("x", 90)
+                    .attr("y", d => yScale(d.category) + yScale.bandwidth() / 2)
+                    .attr("dy", "0.35em")
+                    .attr("text-anchor", "end")
+                    .text(d => d.category)
+                    .style("font-family", "Arial, sans-serif")
+                    .style("font-size", "14px")
+                    .style("fill", "#333");
+
+                svg.selectAll(".value-label")
+                    .data(data)
+                    .join("text")
+                    .attr("class", "value-label")
+                    .attr("x", d => 105 + xScale(d.count))
+                    .attr("y", d => yScale(d.category) + yScale.bandwidth() / 2)
+                    .attr("dy", "0.35em")
+                    .text(d => d.count)
+                    .style("font-family", "Arial, sans-serif")
+                    .style("font-size", "14px")
+                    .style("fill", "#333")
+                    .style("font-weight", "bold");
+
+                svg.append("text")
+                    .attr("x", 600)
+                    .attr("y", 480)
+                    .attr("text-anchor", "middle")
+                    .text(title)
+                    .style("font-family", "Arial, sans-serif")
+                    .style("font-size", "18px")
+                    .style("font-weight", "bold")
+                    .style("fill", "#333");
+
+                svg.append("text")
+                    .attr("x", 600)
+                    .attr("y", 520)
+                    .attr("text-anchor", "middle")
+                    .text(xLabel)
+                    .style("font-family", "Arial, sans-serif")
+                    .style("font-size", "14px")
+                    .style("fill", "#666");
+            }).catch(err => {
+                console.error("CSV load failed for " + csvPath + ":", err);
+            });
+        };
+
+        createBarChart(
+            "#chart-tech",
+            "data/tv-tech-summary.csv",
+            "ScreenTech",
+            "Count",
+            "TV Screen Technology Frequency (Australian Market)",
+            "Number of Models",
+            ["#4CAF50", "#2196F3", "#FF9800"]
+        );
+
+        createBarChart(
+            "#chart-size",
+            "data/tv-size-summary.csv",
+            "ScreenSize",
+            "Count",
+            "TV Screen Size Availability (Australian Market)",
+            "Number of Models",
+            ["#00BCD4", "#4CAF50", "#FFC107", "#FF9800"]
+        );
+    </script>
+</body>
+</html>
