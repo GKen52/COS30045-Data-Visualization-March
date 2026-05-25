@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Load TV data from CSV
 function loadTVData() {
     
     const csvPath = './data/data.csv';
