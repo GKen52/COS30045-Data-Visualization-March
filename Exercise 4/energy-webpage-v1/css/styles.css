@@ -46,6 +46,7 @@ body {
     text-decoration: none; 
     padding: 8px 16px; 
     border-radius: 4px; 
+    display: block;
 }
 
 .nav-link:hover { 
@@ -56,6 +57,50 @@ body {
     background: white; 
     color: #E8913A; 
     font-weight: bold; 
+}
+
+/* Dropdown Menu */
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-menu {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #E8913A;
+    list-style: none;
+    min-width: 180px;
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    z-index: 100;
+    padding: 5px 0;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    transition-delay: 0.1s;
+}
+
+.dropdown:hover .dropdown-menu {
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 0s;
+}
+
+.dropdown-menu .nav-link {
+    padding: 10px 16px;
+    border-radius: 0;
+    white-space: nowrap;
+}
+
+.dropdown-menu .nav-link:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+.dropdown-menu .nav-link.active {
+    background: white;
+    color: #E8913A;
 }
 
 /* Main Content */
@@ -141,6 +186,25 @@ li {
     margin: 20px 0; 
 }
 
+/* Responsive SVG Container for D3 */
+
+.responsive-svg-container {
+    margin-right: auto;
+    margin-left: auto;
+    width: 100%;
+    max-width: 1200px;
+    margin-bottom: 20px;
+}
+
+.bar {
+    transition: opacity 0.3s;
+}
+
+.bar:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
 /* Footer */
 
 footer { 
@@ -156,6 +220,7 @@ footer p {
     margin: 5px 0; 
 }
 
+/* Mobile */
 
 @media (max-width: 600px) {
     
@@ -169,6 +234,20 @@ footer p {
         justify-content: center; 
     }
     
+    .dropdown-menu {
+        position: static;
+        box-shadow: none;
+        visibility: hidden;
+        opacity: 0;
+        display: none;
+    }
+    
+    .dropdown.active .dropdown-menu {
+        display: block;
+        visibility: visible;
+        opacity: 1;
+    }
+    
     table { 
         font-size: 14px; 
     }
@@ -176,19 +255,4 @@ footer p {
     .chart-container { 
         height: 200px; 
     }
-}
-.responsive-svg-container {
-    margin-right: auto;
-    margin-left: auto;
-    width: 100%;
-    max-width: 1200px;
-}
-
-.bar {
-    transition: opacity 0.3s;
-}
-
-.bar:hover {
-    opacity: 0.8;
-    cursor: pointer;
 }

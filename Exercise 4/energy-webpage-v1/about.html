@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Energy Saver - About Us</title>
     <link rel="stylesheet" href="css/styles.css">
+<base target="_blank">
 </head>
 <body>
     <nav class="navbar">
@@ -13,15 +14,21 @@
             <ul class="nav-menu">
                 <li><a href="index.html" class="nav-link">Home</a></li>
                 <li><a href="televisions.html" class="nav-link">Televisions</a></li>
-                <li><a href="data-story.html" class="nav-link">Data Story</a></li>
-                <li><a href="about.html" class="nav-link">About Us</a></li>
+                <li class="dropdown">
+                    <a href="data-story.html" class="nav-link">Data Story</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="data-story.html" class="nav-link">Data Story</a></li>
+                        <li><a href="SVG.html" class="nav-link">SVG</a></li>
+                    </ul>
+                </li>
+                <li><a href="about.html" class="nav-link active">About Us</a></li>
             </ul>
         </div>
     </nav>
 
     <main>
         <h1>About Energy Saver</h1>
-        
+
         <div class="card">
             <h2>Our Mission</h2>
             <p>We help Australian households understand and reduce their energy consumption. Making informed appliance choices saves money and reduces environmental impact.</p>

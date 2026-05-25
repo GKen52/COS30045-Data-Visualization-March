@@ -5,15 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Energy Saver - Home</title>
     <link rel="stylesheet" href="css/styles.css">
+<base target="_blank">
 </head>
 <body>
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo"><img src="images/PowerIcon.png" alt="Logo"></div>
             <ul class="nav-menu">
-                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="index.html" class="nav-link active">Home</a></li>
                 <li><a href="televisions.html" class="nav-link">Televisions</a></li>
-                <li><a href="data-story.html" class="nav-link">Data Story</a></li>
+                <li class="dropdown">
+                    <a href="data-story.html" class="nav-link">Data Story</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="data-story.html" class="nav-link">Data Story</a></li>
+                        <li><a href="SVG.html" class="nav-link">SVG</a></li>
+                    </ul>
+                </li>
                 <li><a href="about.html" class="nav-link">About Us</a></li>
             </ul>
         </div>
@@ -22,7 +29,7 @@
     <main>
         <h1>Energy Saver Australia</h1>
         <p>Your guide to reducing appliance energy consumption and saving on electricity bills.</p>
-        
+
         <div class="card">
             <h2>Home Energy Facts</h2>
             <p>The average Australian household uses 15-20 kWh per day. Appliances account for about 30% of this consumption.</p>

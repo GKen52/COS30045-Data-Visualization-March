@@ -6,22 +6,6 @@
     <title>Energy Saver - Data Story</title>
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <style>
-        .responsive-svg-container {
-            margin-right: auto;
-            margin-left: auto;
-            width: 100%;
-            max-width: 1200px;
-            margin-bottom: 20px;
-        }
-        .bar {
-            transition: opacity 0.3s;
-        }
-        .bar:hover {
-            opacity: 0.8;
-            cursor: pointer;
-        }
-    </style>
 </head>
 <body>
     <nav class="navbar">
@@ -30,7 +14,13 @@
             <ul class="nav-menu">
                 <li><a href="index.html" class="nav-link">Home</a></li>
                 <li><a href="televisions.html" class="nav-link">Televisions</a></li>
-                <li><a href="data-story.html" class="nav-link">Data Story</a></li>
+                <li class="dropdown">
+                    <a href="data-story.html" class="nav-link active">Data Story</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="data-story.html" class="nav-link active">Data Story</a></li>
+                        <li><a href="exercise4.html" class="nav-link">Exercise 4.1 SVG</a></li>
+                    </ul>
+                </li>
                 <li><a href="about.html" class="nav-link">About Us</a></li>
             </ul>
         </div>
@@ -81,113 +71,232 @@
 
     <script src="js/scripts.js"></script>
     <script>
-        const createBarChart = (containerId, csvPath, categoryKey, valueKey, title, xLabel, colors) => {
-            const svg = d3.select(containerId)
-                .append("svg")
-                .attr("viewBox", "0 0 1200 600")
-                .style("border", "1px solid black");
-
-            d3.csv(csvPath, d => {
-                return {
-                    category: d[categoryKey],
-                    count: +d[valueKey]
-                };
-            }).then(data => {
-                console.log(data);
-                console.log(data.length);
-                console.log(d3.max(data, d => d.count));
-                console.log(d3.min(data, d => d.count));
-                console.log(d3.extent(data, d => d.count));
-                data.sort((a, b) => b.count - a.count);
-                console.log(data);
-
-                const xScale = d3.scaleLinear()
-                    .domain([0, d3.max(data, d => d.count)])
-                    .range([0, 1000]);
-
-                const yScale = d3.scaleBand()
-                    .domain(data.map(d => d.category))
-                    .range([0, 400])
-                    .padding(0.2);
-
-                svg.selectAll("rect")
-                    .data(data)
-                    .join("rect")
-                    .attr("class", d => `bar bar-${d.count}`)
-                    .attr("width", d => xScale(d.count))
-                    .attr("height", yScale.bandwidth())
-                    .attr("x", 100)
-                    .attr("y", d => yScale(d.category))
-                    .attr("fill", (d, i) => colors[i % colors.length]);
-
-                svg.selectAll(".label")
-                    .data(data)
-                    .join("text")
-                    .attr("class", "label")
-                    .attr("x", 90)
-                    .attr("y", d => yScale(d.category) + yScale.bandwidth() / 2)
-                    .attr("dy", "0.35em")
-                    .attr("text-anchor", "end")
-                    .text(d => d.category)
-                    .style("font-family", "Arial, sans-serif")
-                    .style("font-size", "14px")
-                    .style("fill", "#333");
-
-                svg.selectAll(".value-label")
-                    .data(data)
-                    .join("text")
-                    .attr("class", "value-label")
-                    .attr("x", d => 105 + xScale(d.count))
-                    .attr("y", d => yScale(d.category) + yScale.bandwidth() / 2)
-                    .attr("dy", "0.35em")
-                    .text(d => d.count)
-                    .style("font-family", "Arial, sans-serif")
-                    .style("font-size", "14px")
-                    .style("fill", "#333")
-                    .style("font-weight", "bold");
-
-                svg.append("text")
-                    .attr("x", 600)
-                    .attr("y", 480)
-                    .attr("text-anchor", "middle")
-                    .text(title)
-                    .style("font-family", "Arial, sans-serif")
-                    .style("font-size", "18px")
-                    .style("font-weight", "bold")
-                    .style("fill", "#333");
-
-                svg.append("text")
-                    .attr("x", 600)
-                    .attr("y", 520)
-                    .attr("text-anchor", "middle")
-                    .text(xLabel)
-                    .style("font-family", "Arial, sans-serif")
-                    .style("font-size", "14px")
-                    .style("fill", "#666");
-            }).catch(err => {
-                console.error("CSV load failed for " + csvPath + ":", err);
-            });
+        // ============================================
+        // EXERCISE 4.3 - D3 SET UP
+        // ============================================
+        // Step 1: Delete style and append elements code from 4.2
+        // (Nothing from 4.2 exists - starting fresh)
+        
+        // Step 2: Add class to help style responsive container for svg elements
+        // CSS class "responsive-svg-container" is in styles.css
+        
+        // Step 3: Create svg object in the responsive container using D3
+        const svgTech = d3.select("#chart-tech")
+            .append("svg")
+            .attr("viewBox", "0 0 1200 600")
+            .style("border", "1px solid black");
+        
+        const svgSize = d3.select("#chart-size")
+            .append("svg")
+            .attr("viewBox", "0 0 1200 600")
+            .style("border", "1px solid black");
+        
+        // Step 4: Add test svg rectangle
+        // svgTech.append("rect")
+        //     .attr("x", 10)
+        //     .attr("y", 10)
+        //     .attr("width", 414)
+        //     .attr("height", 16)
+        //     .attr("fill", "blue");
+        
+        // ============================================
+        // EXERCISE 4.4 - LOAD DATA FROM CSV
+        // ============================================
+        // Step 1: Use row conversion function, d3.csv(), to give D3 access to data
+        d3.csv("data/tv-tech-summary.csv", d => {
+            return {
+                brand: d.ScreenTech,
+                count: +d.Count
+            };
+        }).then(data => {
+            
+            // Step 2: Check browser console tab for java objects created from data set
+            console.log(data);
+            
+            // Step 3: Finding information about the data set
+            console.log(data.length);
+            console.log(d3.max(data, d => d.count));
+            console.log(d3.min(data, d => d.count));
+            console.log(d3.extent(data, d => d.count));
+            
+            // Sort the data
+            data.sort((a, b) => b.count - a.count);
+            console.log(data);
+            
+            // Pass data to chart creation function
+            createTechChart(data);
+        }).catch(err => {
+            console.error("CSV load failed:", err);
+        });
+        
+        d3.csv("data/tv-size-summary.csv", d => {
+            return {
+                brand: d.ScreenSize,
+                count: +d.Count
+            };
+        }).then(data => {
+            console.log(data);
+            console.log(data.length);
+            console.log(d3.max(data, d => d.count));
+            console.log(d3.min(data, d => d.count));
+            console.log(d3.extent(data, d => d.count));
+            data.sort((a, b) => b.count - a.count);
+            console.log(data);
+            createSizeChart(data);
+        }).catch(err => {
+            console.error("CSV load failed:", err);
+        });
+        
+        // ============================================
+        // EXERCISE 4.5 - D3 BINDING AND DRAWING WITH DATA
+        // ============================================
+        // EXERCISE 4.6 - D3 SCALING CHARTS
+        // ============================================
+        
+        const createTechChart = (data) => {
+            // Exercise 4.6 Step 1: Add Linear scale for count data
+            const xScale = d3.scaleLinear()
+                .domain([0, d3.max(data, d => d.count)])
+                .range([0, 1000]);
+            
+            // Exercise 4.6 Step 2: Add a band scale for category data
+            const yScale = d3.scaleBand()
+                .domain(data.map(d => d.brand))
+                .range([0, 400]);
+            
+            // Exercise 4.6 Step 3: Add padding
+            yScale.padding(0.2);
+            
+            // Exercise 4.5 Step 1: Bind the data to DOM elements
+            svgTech.selectAll("rect")
+                .data(data)
+                .join("rect")
+                .attr("class", d => {
+                    console.log(d);
+                    return `bar bar-${d.count}`;
+                })
+                // Exercise 4.5 Step 2: Add attributes to rectangles
+                .attr("width", d => xScale(d.count))
+                .attr("height", yScale.bandwidth())
+                // Exercise 4.5 Step 3: Space out bars
+                .attr("x", 100)
+                .attr("y", d => yScale(d.brand))
+                .attr("fill", (d, i) => {
+                    const colors = ["#4CAF50", "#2196F3", "#FF9800"];
+                    return colors[i % colors.length];
+                });
+            
+            // Labels
+            svgTech.selectAll(".label")
+                .data(data)
+                .join("text")
+                .attr("x", 90)
+                .attr("y", d => yScale(d.brand) + yScale.bandwidth() / 2)
+                .attr("dy", "0.35em")
+                .attr("text-anchor", "end")
+                .text(d => d.brand)
+                .style("font-family", "Arial, sans-serif")
+                .style("font-size", "14px")
+                .style("fill", "#333");
+            
+            svgTech.selectAll(".value-label")
+                .data(data)
+                .join("text")
+                .attr("x", d => 105 + xScale(d.count))
+                .attr("y", d => yScale(d.brand) + yScale.bandwidth() / 2)
+                .attr("dy", "0.35em")
+                .text(d => d.count)
+                .style("font-family", "Arial, sans-serif")
+                .style("font-size", "14px")
+                .style("fill", "#333")
+                .style("font-weight", "bold");
+            
+            svgTech.append("text")
+                .attr("x", 600)
+                .attr("y", 480)
+                .attr("text-anchor", "middle")
+                .text("TV Screen Technology Frequency (Australian Market)")
+                .style("font-family", "Arial, sans-serif")
+                .style("font-size", "18px")
+                .style("font-weight", "bold")
+                .style("fill", "#333");
+            
+            svgTech.append("text")
+                .attr("x", 600)
+                .attr("y", 520)
+                .attr("text-anchor", "middle")
+                .text("Number of Models")
+                .style("font-family", "Arial, sans-serif")
+                .style("font-size", "14px")
+                .style("fill", "#666");
         };
-
-        createBarChart(
-            "#chart-tech",
-            "data/tv-tech-summary.csv",
-            "ScreenTech",
-            "Count",
-            "TV Screen Technology Frequency (Australian Market)",
-            "Number of Models",
-            ["#4CAF50", "#2196F3", "#FF9800"]
-        );
-
-        createBarChart(
-            "#chart-size",
-            "data/tv-size-summary.csv",
-            "ScreenSize",
-            "Count",
-            "TV Screen Size Availability (Australian Market)",
-            "Number of Models",
-            ["#00BCD4", "#4CAF50", "#FFC107", "#FF9800"]
-        );
+        
+        const createSizeChart = (data) => {
+            const xScale = d3.scaleLinear()
+                .domain([0, d3.max(data, d => d.count)])
+                .range([0, 1000]);
+            
+            const yScale = d3.scaleBand()
+                .domain(data.map(d => d.brand))
+                .range([0, 400])
+                .padding(0.2);
+            
+            svgSize.selectAll("rect")
+                .data(data)
+                .join("rect")
+                .attr("class", d => `bar bar-${d.count}`)
+                .attr("width", d => xScale(d.count))
+                .attr("height", yScale.bandwidth())
+                .attr("x", 100)
+                .attr("y", d => yScale(d.brand))
+                .attr("fill", (d, i) => {
+                    const colors = ["#00BCD4", "#4CAF50", "#FFC107", "#FF9800"];
+                    return colors[i % colors.length];
+                });
+            
+            svgSize.selectAll(".label")
+                .data(data)
+                .join("text")
+                .attr("x", 90)
+                .attr("y", d => yScale(d.brand) + yScale.bandwidth() / 2)
+                .attr("dy", "0.35em")
+                .attr("text-anchor", "end")
+                .text(d => d.brand)
+                .style("font-family", "Arial, sans-serif")
+                .style("font-size", "14px")
+                .style("fill", "#333");
+            
+            svgSize.selectAll(".value-label")
+                .data(data)
+                .join("text")
+                .attr("x", d => 105 + xScale(d.count))
+                .attr("y", d => yScale(d.brand) + yScale.bandwidth() / 2)
+                .attr("dy", "0.35em")
+                .text(d => d.count)
+                .style("font-family", "Arial, sans-serif")
+                .style("font-size", "14px")
+                .style("fill", "#333")
+                .style("font-weight", "bold");
+            
+            svgSize.append("text")
+                .attr("x", 600)
+                .attr("y", 480)
+                .attr("text-anchor", "middle")
+                .text("TV Screen Size Availability (Australian Market)")
+                .style("font-family", "Arial, sans-serif")
+                .style("font-size", "18px")
+                .style("font-weight", "bold")
+                .style("fill", "#333");
+            
+            svgSize.append("text")
+                .attr("x", 600)
+                .attr("y", 520)
+                .attr("text-anchor", "middle")
+                .text("Number of Models")
+                .style("font-family", "Arial, sans-serif")
+                .style("font-size", "14px")
+                .style("fill", "#666");
+        };
     </script>
 </body>
 </html>
