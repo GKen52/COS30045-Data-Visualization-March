@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Energy Saver - Charts</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo"><img src="images/PowerIcon.png" alt="Logo"></div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="televisions.html" class="nav-link">Televisions</a></li>
+                <li class="dropdown">
+                    <a href="data-story.html" class="nav-link">Data Story</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="data-story.html" class="nav-link">Data Story</a></li>
+                        <li><a href="SVG.html" class="nav-link">SVG</a></li>
+                        <li><a href="charts.html" class="nav-link active">Charts</a></li>
+                    </ul>
+                </li>
+                <li><a href="about.html" class="nav-link">About Us</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <h1>D3 Charts Dashboard</h1>
+        <p>Interactive data visualisations exploring television energy consumption and Australian electricity spot prices.</p>
+
+        <div class="card">
+            <h2>1. Scatter Plot: Energy Consumption vs Star Rating</h2>
+            <p>This scatter plot explores the relationship between a television's energy consumption (kWh/year) and its energy efficiency star rating. Each point represents a unique model or aggregated group of models. Notice how higher star ratings generally correspond to lower energy use, though there is considerable variation across brands and screen technologies.</p>
+            <div class="chart-legend" id="scatter-legend"></div>
+            <div class="responsive-svg-container" id="scatter-chart"></div>
+        </div>
+
+        <div class="card">
+            <h2>2. Line Chart: Australian Spot Power Prices (1998–2024)</h2>
+            <p>The line chart tracks the average wholesale electricity spot price across Australian states (excluding Tasmania and Snowy) from 1998 to 2024. Prices remained relatively stable until the mid-2010s, after which volatility increased significantly, peaking around 2022.</p>
+            <div class="responsive-svg-container" id="line-chart"></div>
+        </div>
+
+        <div class="card">
+            <h2>3. Bar Chart: Mean Energy by Screen Technology (55-inch TVs)</h2>
+            <p>This bar chart compares the mean annual energy consumption of 55-inch televisions across three screen technologies: LCD, LED, and OLED. OLED displays tend to consume the most energy on average, while LCD and LED are more efficient.</p>
+            <div class="responsive-svg-container" id="bar-chart"></div>
+        </div>
+
+        <div class="card">
+            <h2>4. Donut Chart: Mean Energy by Screen Technology (All Sizes)</h2>
+            <p>The donut chart shows the proportional mean energy consumption across all TV sizes for each screen technology. When all screen sizes are combined, OLED technology shows the highest average energy consumption per year.</p>
+            <div class="responsive-svg-container" id="donut-chart"></div>
+        </div>
+    </main>
+
+    <footer>
+        <p>2026 | Kennard Chan</p>
+    </footer>
+
+    <script src="js/scripts.js"></script>
+    <script src="js/scatter-plot.js"></script>
+    <script src="js/line-chart.js"></script>
+    <script src="js/bar-chart.js"></script>
+    <script src="js/donut-chart.js"></script>
+</body>
+</html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Energy Saver - Data Story</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+<base target="_blank">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo"><img src="images/PowerIcon.png" alt="Logo"></div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="televisions.html" class="nav-link">Televisions</a></li>
+                <li class="dropdown">
+                    <a href="data-story.html" class="nav-link active">Data Story</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="data-story.html" class="nav-link active">Data Story</a></li>
+                        <li><a href="SVG.html" class="nav-link">SVG</a></li>
+                        <li><a href="charts.html" class="nav-link">Charts</a></li>
+                    </ul>
+                </li>
+                <li><a href="about.html" class="nav-link">About Us</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <h1>TV Energy Consumption Data Story</h1>
+        <p>Exploring patterns in television energy consumption across different models, sizes, and technologies in the Australian market.</p>
+
+        <div class="card">
+            <h2>Audience</h2>
+            <p>This visualisation is designed for:</p>
+            <ul>
+                <li>Consumers interested in energy-efficient televisions</li>
+                <li>Policy makers and regulators interested in energy consumption trends</li>
+                <li>Researchers studying energy efficiency in consumer electronics</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>Story Overview</h2>
+            <p>This visualisation explores patterns in TV energy consumption across different television models and specifications. The goal is to help viewers understand how energy consumption varies between television models, the relationship between screen size and power consumption, how energy efficiency ratings impact energy usage, and trends that may help consumers choose more energy-efficient televisions.</p>
+        </div>
+
+        <div class="card">
+            <h2>Question 1: Screen Tech Frequency</h2>
+            <p>What type of TV screen technologies are currently available and which are the most frequent?</p>
+            <div class="responsive-svg-container" id="chart-tech"></div>
+            <img src="images/question1.png" alt="Question 1 Screen Tech Analysis" style="width: 100%; margin-top: 15px; border-radius: 8px;">
+            <p><strong>Key Insight:</strong> LCD (LED) dominates the Australian market with 3800 models, significantly more than LCD (481) and OLED (311). This indicates LCD (LED) is the most commonly available technology for consumers.</p>
+            <p><strong>Recommendation:</strong> Focus marketing or supply efforts on LCD (LED) devices, leveraging their dominant market share. Monitor emerging OLED trends as advanced screen technology.</p>
+        </div>
+
+        <div class="card">
+            <h2>Question 2: Screen Size Availability</h2>
+            <p>What screen sizes are currently available, and which are the most frequent?</p>
+            <div class="responsive-svg-container" id="chart-size"></div>
+            <img src="images/question2.png" alt="Question 2 Screen Size Analysis" style="width: 100%; margin-top: 15px; border-radius: 8px;">
+            <p><strong>Key Insight:</strong> The 65-inch category is the most frequent size with 843 models, followed by 55-inch (764), 50-inch (334), and 75-inch (91). Larger screens between 55-65 inches dominate the market.</p>
+            <p><strong>Recommendation:</strong> Prioritize the 65-inch category as it is currently the most frequent size. Ensure stock levels and marketing materials align with this highly sought-after category.</p>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>2026 | Kennard Chan</p>
+    </footer>
+
+    <script src="js/scripts.js"></script>
+    <script>
+        // ============================================
+        // EXERCISE 4.3 - D3 SET UP
+        // ============================================
+        // Step 1: Delete style and append elements code from 4.2
+        // (Nothing from 4.2 exists - starting fresh)
+
+        // Step 2: Add class to help style responsive container for svg elements
+        // CSS class "responsive-svg-container" is in styles.css
+
+        // Step 3: Create svg object in the responsive container using D3
+        const svgTech = d3.select("#chart-tech")
+            .append("svg")
+            .attr("viewBox", "0 0 1200 600")
+            .style("border", "1px solid black");
+
+        const svgSize = d3.select("#chart-size")
+            .append("svg")
+            .attr("viewBox", "0 0 1200 600")
+            .style("border", "1px solid black");
+
+        // Step 4: Add test svg rectangle
+        // svgTech.append("rect")
+        //     .attr("x", 10)
+        //     .attr("y", 10)
+        //     .attr("width", 414)
+        //     .attr("height", 16)
+        //     .attr("fill", "blue");
+
+        // ============================================
+        // EXERCISE 4.4 - LOAD DATA FROM CSV
+        // ============================================
+        // Step 1: Use row conversion function, d3.csv(), to give D3 access to data
+        d3.csv("data/tv-tech-summary.csv", d => {
+            return {
+                brand: d.ScreenTech,
+                count: +d.Count
+            };
+        }).then(data => {
+
+            // Step 2: Check browser console tab for java objects created from data set
+            console.log(data);
+
+            // Step 3: Finding information about the data set
+            console.log(data.length);
+            console.log(d3.max(data, d => d.count));
+            console.log(d3.min(data, d => d.count));
+            console.log(d3.extent(data, d => d.count));
+
+            // Sort the data
+            data.sort((a, b) => b.count - a.count);
+            console.log(data);
+
+            // Pass data to chart creation function
+            createTechChart(data);
+        }).catch(err => {
+            console.error("CSV load failed:", err);
+        });
+
+        d3.csv("data/tv-size-summary.csv", d => {
+            return {
+                brand: d.ScreenSize,
+                count: +d.Count
+            };
+        }).then(data => {
+            console.log(data);
+            console.log(data.length);
+            console.log(d3.max(data, d => d.count));
+            console.log(d3.min(data, d => d.count));
+            console.log(d3.extent(data, d => d.count));
+            data.sort((a, b) => b.count - a.count);
+            console.log(data);
+            createSizeChart(data);
+        }).catch(err => {
+            console.error("CSV load failed:", err);
+        });
+
+        // ============================================
+        // EXERCISE 4.5 - D3 BINDING AND DRAWING WITH DATA
+        // ============================================
+        // EXERCISE 4.6 - D3 SCALING CHARTS
+        // ============================================
+
+        const createTechChart = (data) => {
+            // Exercise 4.6 Step 1: Add Linear scale for count data
+            const xScale = d3.scaleLinear()
+                .domain([0, d3.max(data, d => d.count)])
+                .range([0, 1000]);
+
+            // Exercise 4.6 Step 2: Add a band scale for category data
+            const yScale = d3.scaleBand()
+                .domain(data.map(d => d.brand))
+                .range([0, 400]);
+
+            // Exercise 4.6 Step 3: Add padding
+            yScale.padding(0.2);
+
+            // Exercise 4.5 Step 1: Bind the data to DOM elements
+            svgTech.selectAll("rect")
+                .data(data)
+                .join("rect")
+                .attr("class", d => {
+                    console.log(d);
+                    return `bar bar-${d.count}`;
+                })
+                // Exercise 4.5 Step 2: Add attributes to rectangles
+                .attr("width", d => xScale(d.count))
+                .attr("height", yScale.bandwidth())
+                // Exercise 4.5 Step 3: Space out bars
+                .attr("x", 100)
+                .attr("y", d => yScale(d.brand))
+                .attr("fill", (d, i) => {
+                    const colors = ["#4CAF50", "#2196F3", "#FF9800"];
+                    return colors[i % colors.length];
+                });
+
+            // Labels
+            svgTech.selectAll(".label")
+                .data(data)
+                .join("text")
+                .attr("x", 90)
+                .attr("y", d => yScale(d.brand) + yScale.bandwidth() / 2)
+                .attr("dy", "0.35em")
+                .attr("text-anchor", "end")
+                .text(d => d.brand)
+                .style("font-family", "Arial, sans-serif")
+                .style("font-size", "14px")
+                .style("fill", "#333");
+
+            svgTech.selectAll(".value-label")
+                .data(data)
+                .join("text")
+                .attr("x", d => 105 + xScale(d.count))
+                .attr("y", d => yScale(d.brand) + yScale.bandwidth() / 2)
+                .attr("dy", "0.35em")
+                .text(d => d.count)
+                .style("font-family", "Arial, sans-serif")
+                .style("font-size", "14px")
+                .style("fill", "#333")
+                .style("font-weight", "bold");
+
+            svgTech.append("text")
+                .attr("x", 600)
+                .attr("y", 480)
+                .attr("text-anchor", "middle")
+                .text("TV Screen Technology Frequency (Australian Market)")
+                .style("font-family", "Arial, sans-serif")
+                .style("font-size", "18px")
+                .style("font-weight", "bold")
+                .style("fill", "#333");
+
+            svgTech.append("text")
+                .attr("x", 600)
+                .attr("y", 520)
+                .attr("text-anchor", "middle")
+                .text("Number of Models")
+                .style("font-family", "Arial, sans-serif")
+                .style("font-size", "14px")
+                .style("fill", "#666");
+        };
+
+        const createSizeChart = (data) => {
+            const xScale = d3.scaleLinear()
+                .domain([0, d3.max(data, d => d.count)])
+                .range([0, 1000]);
+
+            const yScale = d3.scaleBand()
+                .domain(data.map(d => d.brand))
+                .range([0, 400])
+                .padding(0.2);
+
+            svgSize.selectAll("rect")
+                .data(data)
+                .join("rect")
+                .attr("class", d => `bar bar-${d.count}`)
+                .attr("width", d => xScale(d.count))
+                .attr("height", yScale.bandwidth())
+                .attr("x", 100)
+                .attr("y", d => yScale(d.brand))
+                .attr("fill", (d, i) => {
+                    const colors = ["#00BCD4", "#4CAF50", "#FFC107", "#FF9800"];
+                    return colors[i % colors.length];
+                });
+
+            svgSize.selectAll(".label")
+                .data(data)
+                .join("text")
+                .attr("x", 90)
+                .attr("y", d => yScale(d.brand) + yScale.bandwidth() / 2)
+                .attr("dy", "0.35em")
+                .attr("text-anchor", "end")
+                .text(d => d.brand)
+                .style("font-family", "Arial, sans-serif")
+                .style("font-size", "14px")
+                .style("fill", "#333");
+
+            svgSize.selectAll(".value-label")
+                .data(data)
+                .join("text")
+                .attr("x", d => 105 + xScale(d.count))
+                .attr("y", d => yScale(d.brand) + yScale.bandwidth() / 2)
+                .attr("dy", "0.35em")
+                .text(d => d.count)
+                .style("font-family", "Arial, sans-serif")
+                .style("font-size", "14px")
+                .style("fill", "#333")
+                .style("font-weight", "bold");
+
+            svgSize.append("text")
+                .attr("x", 600)
+                .attr("y", 480)
+                .attr("text-anchor", "middle")
+                .text("TV Screen Size Availability (Australian Market)")
+                .style("font-family", "Arial, sans-serif")
+                .style("font-size", "18px")
+                .style("font-weight", "bold")
+                .style("fill", "#333");
+
+            svgSize.append("text")
+                .attr("x", 600)
+                .attr("y", 520)
+                .attr("text-anchor", "middle")
+                .text("Number of Models")
+                .style("font-family", "Arial, sans-serif")
+                .style("font-size", "14px")
+                .style("fill", "#666");
+        };
+    </script>
+</body>
+</html>
