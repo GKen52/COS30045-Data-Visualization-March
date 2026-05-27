@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Energy Saver - Interactive</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/interactive.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo"><img src="images/PowerIcon.png" alt="Logo"></div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="televisions.html" class="nav-link">Televisions</a></li>
+                <li class="dropdown">
+                    <a href="data-story.html" class="nav-link">Data Story</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="data-story.html" class="nav-link">Data Story</a></li>
+                        <li><a href="SVG.html" class="nav-link">SVG</a></li>
+                        <li><a href="charts.html" class="nav-link">Charts</a></li>
+                        <li><a href="Interactive.html" class="nav-link active">Interactive</a></li>
+                    </ul>
+                </li>
+                <li><a href="about.html" class="nav-link">About Us</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <h1>TV Energy Consumption</h1>
+
+        <div class="card">
+            <h2>Energy Consumption for different TV screen types and sizes</h2>
+            <p>Most TVs on sale in Australia are LED and they vary considerably in energy consumption. Use the filter buttons below to explore the data by screen technology.</p>
+
+            <div id="filters_screen" class="filter-container"></div>
+
+            <div id="histogram" class="responsive-svg-container"></div>
+
+            <p class="chart-note">Only TVs with energy consumption less than 1,800 kWh/year have been included.</p>
+        </div>
+
+        <div class="card">
+            <h2>Energy Consumption vs Star Rating</h2>
+            <p>TVs with the same star rating can have very different energy consumption. It all depends on screen size and technology type. Hover over points to see screen size details.</p>
+
+            <div id="scatterplot" class="responsive-svg-container"></div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>2026 | Kennard Chan</p>
+            <p>Energy Saver Australia - Data Visualisation Week 6</p>
+        </div>
+    </footer>
+
+    <script src="js/scripts.js"></script>
+    <script src="js/shared-constants.js"></script>
+    <script src="js/load-data.js"></script>
+    <script src="js/histogram.js"></script>
+    <script src="js/scatterplot.js"></script>
+    <script src="js/interactions.js"></script>
+</body>
+</html>

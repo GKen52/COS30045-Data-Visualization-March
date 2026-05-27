@@ -12,8 +12,6 @@ body {
     flex-direction: column; 
 }
 
-/* Navigation */
-
 .navbar { 
     background: #E8913A; 
     padding: 10px 20px; 
@@ -59,7 +57,6 @@ body {
     font-weight: bold; 
 }
 
-/* Dropdown Menu */
 
 .dropdown {
     position: relative;
@@ -103,7 +100,6 @@ body {
     color: #E8913A;
 }
 
-/* Main Content */
 
 main { 
     flex: 1; 
@@ -133,8 +129,6 @@ p {
     color: #333; 
 }
 
-/* Cards */
-
 .card { 
     background: white; 
     padding: 12px 15px; 
@@ -143,7 +137,6 @@ p {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
 }
 
-/* Table */
 
 table { 
     width: 100%; 
@@ -168,7 +161,6 @@ tr:hover {
     background: #f9f9f9; 
 }
 
-/* Lists */
 
 ul { 
     margin: 10px 0 10px 25px; 
@@ -178,7 +170,6 @@ li {
     margin: 5px 0; 
 }
 
-/* Charts */
 
 .chart-container { 
     position: relative; 
@@ -186,7 +177,6 @@ li {
     margin: 20px 0; 
 }
 
-/* Responsive SVG Container for D3 */
 
 .responsive-svg-container {
     margin-right: auto;
@@ -205,7 +195,6 @@ li {
     cursor: pointer;
 }
 
-/* Chart Legend Styles */
 
 .chart-legend {
     display: flex;
@@ -229,7 +218,6 @@ li {
     display: inline-block;
 }
 
-/* Footer */
 
 footer { 
     background: #333; 
@@ -244,7 +232,6 @@ footer p {
     margin: 5px 0; 
 }
 
-/* Mobile */
 
 @media (max-width: 600px) {
 

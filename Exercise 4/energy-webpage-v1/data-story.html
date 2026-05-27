@@ -71,16 +71,7 @@
 
     <script src="js/scripts.js"></script>
     <script>
-        // ============================================
-        // EXERCISE 4.3 - D3 SET UP
-        // ============================================
-        // Step 1: Delete style and append elements code from 4.2
-        // (Nothing from 4.2 exists - starting fresh)
-        
-        // Step 2: Add class to help style responsive container for svg elements
-        // CSS class "responsive-svg-container" is in styles.css
-        
-        // Step 3: Create svg object in the responsive container using D3
+
         const svgTech = d3.select("#chart-tech")
             .append("svg")
             .attr("viewBox", "0 0 1200 600")
@@ -91,18 +82,8 @@
             .attr("viewBox", "0 0 1200 600")
             .style("border", "1px solid black");
         
-        // Step 4: Add test svg rectangle
-        // svgTech.append("rect")
-        //     .attr("x", 10)
-        //     .attr("y", 10)
-        //     .attr("width", 414)
-        //     .attr("height", 16)
-        //     .attr("fill", "blue");
-        
-        // ============================================
-        // EXERCISE 4.4 - LOAD DATA FROM CSV
-        // ============================================
-        // Step 1: Use row conversion function, d3.csv(), to give D3 access to data
+ 
+
         d3.csv("data/tv-tech-summary.csv", d => {
             return {
                 brand: d.ScreenTech,
@@ -110,10 +91,10 @@
             };
         }).then(data => {
             
-            // Step 2: Check browser console tab for java objects created from data set
+
             console.log(data);
             
-            // Step 3: Finding information about the data set
+
             console.log(data.length);
             console.log(d3.max(data, d => d.count));
             console.log(d3.min(data, d => d.count));
@@ -146,28 +127,21 @@
         }).catch(err => {
             console.error("CSV load failed:", err);
         });
-        
-        // ============================================
-        // EXERCISE 4.5 - D3 BINDING AND DRAWING WITH DATA
-        // ============================================
-        // EXERCISE 4.6 - D3 SCALING CHARTS
-        // ============================================
-        
+
         const createTechChart = (data) => {
-            // Exercise 4.6 Step 1: Add Linear scale for count data
+
             const xScale = d3.scaleLinear()
                 .domain([0, d3.max(data, d => d.count)])
                 .range([0, 1000]);
             
-            // Exercise 4.6 Step 2: Add a band scale for category data
+
             const yScale = d3.scaleBand()
                 .domain(data.map(d => d.brand))
                 .range([0, 400]);
-            
-            // Exercise 4.6 Step 3: Add padding
+
             yScale.padding(0.2);
             
-            // Exercise 4.5 Step 1: Bind the data to DOM elements
+            // Bind the data to DOM elements
             svgTech.selectAll("rect")
                 .data(data)
                 .join("rect")
@@ -175,10 +149,9 @@
                     console.log(d);
                     return `bar bar-${d.count}`;
                 })
-                // Exercise 4.5 Step 2: Add attributes to rectangles
+
                 .attr("width", d => xScale(d.count))
                 .attr("height", yScale.bandwidth())
-                // Exercise 4.5 Step 3: Space out bars
                 .attr("x", 100)
                 .attr("y", d => yScale(d.brand))
                 .attr("fill", (d, i) => {
@@ -186,7 +159,7 @@
                     return colors[i % colors.length];
                 });
             
-            // Labels
+
             svgTech.selectAll(".label")
                 .data(data)
                 .join("text")

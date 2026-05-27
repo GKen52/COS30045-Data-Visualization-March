@@ -6,7 +6,6 @@
     <title>Energy Saver - Data Story</title>
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://d3js.org/d3.v7.min.js"></script>
-<base target="_blank">
 </head>
 <body>
     <nav class="navbar">
@@ -21,6 +20,7 @@
                         <li><a href="data-story.html" class="nav-link active">Data Story</a></li>
                         <li><a href="SVG.html" class="nav-link">SVG</a></li>
                         <li><a href="charts.html" class="nav-link">Charts</a></li>
+                        <li><a href="Interactive.html" class="nav-link">Interactive</a></li>
                     </ul>
                 </li>
                 <li><a href="about.html" class="nav-link">About Us</a></li>
@@ -84,7 +84,7 @@
             .attr("viewBox", "0 0 1200 600")
             .style("border", "1px solid black");
 
-        d3.csv("data/tv-tech-summary.csv", d => {
+            d3.csv("data/tv-tech-summary.csv", d => {
             return {
                 brand: d.ScreenTech,
                 count: +d.Count

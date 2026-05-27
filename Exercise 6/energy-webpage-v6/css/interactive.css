@@ -1,0 +1,100 @@
+
+.filter-container {
+    display: flex;
+    gap: 8px;
+    margin: 15px 0;
+    flex-wrap: wrap;
+}
+
+
+.filter {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 4px;
+    background: #f0e6d3;
+    color: #8B6914;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: Arial, sans-serif;
+}
+
+.filter:hover {
+    background: #e0d4b8;
+}
+
+.filter.active {
+    background: #E8913A;
+    color: white;
+}
+
+.filter.active:hover {
+    background: #d4802f;
+}
+
+.chart-note {
+    font-size: 12px;
+    color: #888;
+    margin-top: 10px;
+    font-style: italic;
+}
+
+.data-source {
+    background: #faf8f5;
+    border-left: 4px solid #E8913A;
+}
+
+.data-source h3 {
+    color: #C46A1A;
+    font-size: 14px;
+    margin-bottom: 5px;
+    border-left: none;
+    padding-left: 0;
+}
+
+.data-source p {
+    font-size: 12px;
+    color: #666;
+    margin: 2px 0;
+}
+
+.data-source a {
+    color: #E8913A;
+    text-decoration: none;
+}
+
+.data-source a:hover {
+    text-decoration: underline;
+}
+
+
+.axis-label {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    fill: #5a3e2b;
+}
+
+.tooltip rect {
+    pointer-events: none;
+}
+
+.tooltip text {
+    pointer-events: none;
+    font-family: Arial, sans-serif;
+}
+
+.scatter-point {
+    transition: all 0.2s ease;
+}
+
+@media (max-width: 600px) {
+    .filter-container {
+        justify-content: center;
+    }
+
+    .filter {
+        padding: 6px 14px;
+        font-size: 12px;
+    }
+}
